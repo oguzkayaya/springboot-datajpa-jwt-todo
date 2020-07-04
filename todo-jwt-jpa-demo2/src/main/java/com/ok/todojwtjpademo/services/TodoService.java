@@ -26,15 +26,12 @@ public class TodoService {
 	@Autowired
 	private UserRepository userRepository;
 
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
-	EntityManager em = emf.createEntityManager();
-
 	public List<Todo> getAllTodos(String logonUser) {
-		
+
 		User user = userRepository.findByUsername(logonUser);
 		List<Todo> todoList = user.getTodos();
-		
-		//List<Todo> todoList = todoRepository.findByTodoUserUsername(logonUser);
+
+		// List<Todo> todoList = todoRepository.findByTodoUserUsername(logonUser);
 
 		return todoList;
 	}
@@ -54,37 +51,33 @@ public class TodoService {
 		User user = userRepository.findByUsername(logonUser);
 
 		newTodo.setTodoUser(user);
-		
+
 		Todo addedTodo = todoRepository.save(newTodo);
 
 		return addedTodo;
 	}
 
-	
-	
-	
 	public Todo deleteTodo(int todoId, String logonUser) {
 
 		Todo deletingTodo = todoRepository.findById(todoId).get();
-		
-		if(deletingTodo.getTodoUser().getUsername().equals(logonUser)) {
+
+		if (deletingTodo.getTodoUser().getUsername().equals(logonUser)) {
 			todoRepository.delete(deletingTodo);
 			return deletingTodo;
 		}
-		return null;	
+		return null;
 
 	}
 
 	public Todo UpdateTodo(int todoId, Todo todo, String logonUser) {
 
 		Todo updatingTodo = todoRepository.findById(todoId).get();
-		
+
 		updatingTodo.setDescription(todo.getDescription());
-		
-		todoRepository.save(updatingTodo);
-		
-		return updatingTodo;
-		
+
+		return todoRepository.save(updatingTodo);
+
+
 	}
 
 }

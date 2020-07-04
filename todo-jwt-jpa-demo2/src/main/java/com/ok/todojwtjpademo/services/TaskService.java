@@ -6,30 +6,41 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ok.todojwtjpademo.models.Task;
 import com.ok.todojwtjpademo.models.Todo;
+import com.ok.todojwtjpademo.repositories.TaskRepository;
+import com.ok.todojwtjpademo.repositories.TodoRepository;
 
 @Service
 public class TaskService {
 
+	@Autowired
+	TaskRepository taskRepository;
+
+	@Autowired
+	TodoRepository todoRepository;
+
 	EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
 	EntityManager em = emf.createEntityManager();
 
-	public List<Task> GetTasks(int id, String logonUser) {
+	public List<Task> GetTasks(int todoId, String logonUser) {
 
-		List<Task> taskList = em
-				.createQuery("select c from Task c where taskTodo.id = :id and taskTodo.todoUser.username = :logonUser")
-				.setParameter("id", id).setParameter("logonUser", logonUser).getResultList();
+		List<Task> taskList = taskRepository.findByTaskTodoId(todoId);
 
-		return taskList;
+		if (taskList.get(0).getTaskTodo().getTodoUser().getUsername().equals(logonUser)) {
+			return taskList;
+		}
+
+		return null;
 
 	}
 
 	public Task AddTaskToTodo(int todoId, Task task, String logonUser) {
 
-		Todo todo = em.find(Todo.class, todoId);
+		Todo todo = todoRepository.findById(todoId).get();
 
 		Task addedTask = new Task();
 		addedTask.setTaskTodo(todo);
@@ -40,13 +51,7 @@ public class TaskService {
 
 		if (todo.getTodoUser().getUsername().equals(logonUser)) {
 
-			task.setTaskTodo(todo);
-
-			em.getTransaction().begin();
-			em.persist(addedTask);
-			em.getTransaction().commit();
-
-			return addedTask;
+			return taskRepository.save(addedTask);
 
 		}
 
@@ -56,13 +61,11 @@ public class TaskService {
 
 	public Task DeleteTask(int id, String logonUser) {
 
-		Task deletedTask = em.find(Task.class, id);
+		Task deletedTask = taskRepository.findById(id).get();
 
 		if (deletedTask.getTaskTodo().getTodoUser().getUsername().equals(logonUser)) {
 
-			em.getTransaction().begin();
-			em.remove(deletedTask);
-			em.getTransaction().commit();
+			taskRepository.delete(deletedTask);
 
 			return deletedTask;
 		}
@@ -72,19 +75,16 @@ public class TaskService {
 
 	public Task UpdateTask(int taskId, Task newTask, String logonUser) {
 
-		Task updatingTask = em.find(Task.class, taskId);
+		Task updatingTask = taskRepository.findById(taskId).get();
 
 		if (updatingTask.getTaskTodo().getTodoUser().getUsername().equals(logonUser)) {
-			
+
 			updatingTask.setDone(newTask.isDone());
 			updatingTask.setDueDate(newTask.getDueDate());
 			updatingTask.setTaskName(newTask.getTaskName());
 
-			em.getTransaction().begin();
-			em.merge(updatingTask);
-			em.getTransaction().commit();
+			return taskRepository.save(updatingTask);
 
-			return updatingTask;
 		}
 
 		return null;
