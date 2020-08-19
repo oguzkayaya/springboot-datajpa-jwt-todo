@@ -18,6 +18,7 @@ import com.ok.todojwtjpademo.services.MyUserDetailsService;
 import com.ok.todojwtjpademo.util.JwtUtil;
 
 @RestController
+@RequestMapping("/api")
 public class AuthenticationController {
 
 	@Autowired

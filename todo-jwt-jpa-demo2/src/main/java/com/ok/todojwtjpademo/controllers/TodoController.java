@@ -22,6 +22,7 @@ import com.ok.todojwtjpademo.services.UserService;
 import com.ok.todojwtjpademo.util.JwtUtil;
 
 @RestController
+@RequestMapping("/api")
 public class TodoController {
 
 	@Autowired

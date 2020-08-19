@@ -15,6 +15,7 @@ import com.ok.todojwtjpademo.services.TaskService;
 import com.ok.todojwtjpademo.util.JwtUtil;
 
 @RestController
+@RequestMapping("/api")
 public class TaskController {
 
 	@Autowired
