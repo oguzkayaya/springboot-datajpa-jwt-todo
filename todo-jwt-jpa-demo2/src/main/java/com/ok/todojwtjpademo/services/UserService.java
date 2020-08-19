@@ -12,14 +12,12 @@ import com.ok.todojwtjpademo.util.JwtUtil;
 @Service
 public class UserService {
 
-	//deneme için koydun
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	public List<User> getUserByName(String username) {
-		
-		return userRepository.findByUsername2(username);
-	}
-	
-	
+    public List<User> getUserByName(String username) {
+        return userRepository.findByUsername2(username);
+    }
+
+
 }

@@ -100,15 +100,4 @@ public class TodoController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(todoService.UpdateTodo(id, newTodo, logonUser));
 
 	}
-
-	//deneme sil bunu
-	@Autowired
-	private UserService userService;
-	
-	@RequestMapping(value = "/user", method = RequestMethod.GET)
-	public List<User> getUserByName(HttpServletRequest request){
-		String logonUser = jwtUtil.extractUsernameFromRequest(request);
-		return userService.getUserByName(logonUser);
-	}
-	
 }

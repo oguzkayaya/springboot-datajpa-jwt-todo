@@ -31,8 +31,6 @@ public class TodoService {
 		User user = userRepository.findByUsername(logonUser);
 		List<Todo> todoList = user.getTodos();
 
-		// List<Todo> todoList = todoRepository.findByTodoUserUsername(logonUser);
-
 		return todoList;
 	}
 

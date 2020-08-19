@@ -9,12 +9,6 @@ import com.ok.todojwtjpademo.models.User;
 
 public interface TodoRepository extends CrudRepository<Todo, Integer> {
 
-	public List<Todo> findByTodoUserUsername(String user);
-	
-	
-	
-	
-	
+    public List<Todo> findByTodoUserUsername(String user);
 
-	
 }
