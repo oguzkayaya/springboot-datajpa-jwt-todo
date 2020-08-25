@@ -19,4 +19,12 @@ public class GraphQLTodoService {
             return todoService.getAllTodos(user);
         };
     }
+
+    public DataFetcher<Todo> getTodo() {
+        return dataFetchingEnvironment -> {
+            String user = dataFetchingEnvironment.getContext();
+            int id = dataFetchingEnvironment.getArgument("id");
+            return todoService.getOneTodo(id, user);
+        };
+    }
 }
