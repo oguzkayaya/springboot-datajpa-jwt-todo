@@ -26,6 +26,8 @@ public class GraphQLConfiguration {
                         .dataFetcher("getTodos", graphQLTodoService.getTodos()))
                 .type(TypeRuntimeWiring.newTypeWiring("Query")
                         .dataFetcher("getTodo", graphQLTodoService.getTodo()))
+                .type(TypeRuntimeWiring.newTypeWiring("Mutation")
+                        .dataFetcher("deleteTodo", graphQLTodoService.deleteTodo()))
                 .build();
         SchemaGenerator schemaGenerator = new SchemaGenerator();
         GraphQLSchema graphQLSchema = schemaGenerator.makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);

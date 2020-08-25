@@ -1,6 +1,11 @@
 type Query {
     getTodos: [Todo]
     getTodo(id: Int): Todo
+    deleteTodo(id: Int): Todo
+}
+
+type Mutation {
+    deleteTodo(id: Int): Todo
 }
 
 type Todo {

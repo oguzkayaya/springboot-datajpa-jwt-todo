@@ -27,4 +27,12 @@ public class GraphQLTodoService {
             return todoService.getOneTodo(id, user);
         };
     }
+
+    public DataFetcher<Todo> deleteTodo() {
+        return dataFetchingEnvironment -> {
+                String user = dataFetchingEnvironment.getContext();
+                int id = dataFetchingEnvironment.getArgument("id");
+                return todoService.deleteTodo(id, user);
+        };
+    }
 }
