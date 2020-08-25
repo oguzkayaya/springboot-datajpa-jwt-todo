@@ -5,4 +5,19 @@ type Query {
 type Todo {
     id: Int
     description: String
+    todoUser: User
+    tasks: [Task]
+}
+
+
+type User {
+    id: Int
+    username: String
+}
+
+type Task {
+    id: Int
+    taskName: String
+    dueDate: String
+    done: Boolean
 }
