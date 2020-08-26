@@ -67,7 +67,7 @@ public class TodoService {
 
 	}
 
-	public Todo UpdateTodo(int todoId, Todo todo, String logonUser) {
+	public Todo updateTodo(int todoId, Todo todo, String logonUser) {
 
 		Todo updatingTodo = todoRepository.findById(todoId).get();
 

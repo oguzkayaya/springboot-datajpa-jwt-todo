@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class GraphQLTodoService {
@@ -30,9 +31,33 @@ public class GraphQLTodoService {
 
     public DataFetcher<Todo> deleteTodo() {
         return dataFetchingEnvironment -> {
-                String user = dataFetchingEnvironment.getContext();
-                int id = dataFetchingEnvironment.getArgument("id");
-                return todoService.deleteTodo(id, user);
+            String user = dataFetchingEnvironment.getContext();
+            int id = dataFetchingEnvironment.getArgument("id");
+            return todoService.deleteTodo(id, user);
+        };
+    }
+
+
+    public DataFetcher<Todo> addTodo() {
+        return dataFetchingEnvironment -> {
+            String user = dataFetchingEnvironment.getContext();
+            Map<String, Object> argument = dataFetchingEnvironment.getArgument("newTodo");
+            String desc = (String) argument.get("description");
+            Todo newTodo = new Todo();
+            newTodo.setDescription(desc);
+            return todoService.addTodo(newTodo, user);
+        };
+    }
+
+    public DataFetcher<Todo> updateTodo() {
+        return dataFetchingEnvironment -> {
+            String user = dataFetchingEnvironment.getContext();
+            Map<String, Object> argument = dataFetchingEnvironment.getArgument("newTodo");
+            String desc = (String) argument.get("description");
+            int todoId = dataFetchingEnvironment.getArgument("id");
+            Todo newTodo = new Todo();
+            newTodo.setDescription(desc);
+            return todoService.updateTodo(todoId, newTodo, user);
         };
     }
 }

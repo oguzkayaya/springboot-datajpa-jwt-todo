@@ -1,8 +1,5 @@
 package com.ok.todojwtjpademo.controllers;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException.NotAcceptable;
 
 import com.ok.todojwtjpademo.models.Todo;
-import com.ok.todojwtjpademo.models.User;
 import com.ok.todojwtjpademo.services.TodoService;
-import com.ok.todojwtjpademo.services.UserService;
 import com.ok.todojwtjpademo.util.JwtUtil;
 
 @RestController
@@ -93,12 +87,12 @@ public class TodoController {
 
 		String logonUser = jwtUtil.extractUsernameFromRequest(request);
 		
-		Todo updatedTodo = todoService.UpdateTodo(id, newTodo, logonUser);
+		Todo updatedTodo = todoService.updateTodo(id, newTodo, logonUser);
 		
 		if(updatedTodo == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(updatedTodo);
 		
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(todoService.UpdateTodo(id, newTodo, logonUser));
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(todoService.updateTodo(id, newTodo, logonUser));
 
 	}
 }

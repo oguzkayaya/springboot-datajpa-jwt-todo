@@ -1,11 +1,12 @@
 type Query {
     getTodos: [Todo]
     getTodo(id: Int): Todo
-    deleteTodo(id: Int): Todo
 }
 
 type Mutation {
     deleteTodo(id: Int): Todo
+    addTodo(newTodo: todoInput): Todo
+    updateTodo(id: Int, newTodo: todoInput): Todo
 }
 
 type Todo {
@@ -26,4 +27,8 @@ type Task {
     taskName: String
     dueDate: String
     done: Boolean
+}
+
+input todoInput {
+    description: String
 }
