@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GraphQLTodoService {
+public class TodoFetcherService {
     @Autowired
     private TodoService todoService;
 

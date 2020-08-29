@@ -7,6 +7,10 @@ type Mutation {
     deleteTodo(id: Int): Todo
     addTodo(newTodo: todoInput): Todo
     updateTodo(id: Int, newTodo: todoInput): Todo
+
+    deleteTask(id: Int): Boolean
+    addTask(todoId: Int, newTask: taskInput): Boolean
+    updateTask(id: Int, newTask: taskInput): Boolean
 }
 
 type Todo {
@@ -15,7 +19,6 @@ type Todo {
     todoUser: User
     tasks: [Task]
 }
-
 
 type User {
     id: Int
@@ -31,4 +34,10 @@ type Task {
 
 input todoInput {
     description: String
+}
+
+input taskInput {
+    taskName: String
+    dueDate: String
+    done: Boolean
 }

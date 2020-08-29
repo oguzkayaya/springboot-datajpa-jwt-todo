@@ -1,6 +1,7 @@
 package com.ok.todojwtjpademo.graphql;
 
 import graphql.GraphQL;
+import graphql.schema.DataFetcher;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ import java.io.IOException;
 public class GraphQLConfiguration {
 
     @Autowired
-    private GraphQLTodoService graphQLTodoService;
+    private TodoFetcherService todoFetcherService;
+    @Autowired
+    private TaskFetcherService taskFetcherService;
 
     @Bean
     public GraphQL graphQL() throws IOException {
@@ -23,15 +26,15 @@ public class GraphQLConfiguration {
         TypeDefinitionRegistry typeDefinitionRegistry = schemaParser.parse(schema.getInputStream());
         RuntimeWiring runtimeWiring = RuntimeWiring.newRuntimeWiring()
                 .type(TypeRuntimeWiring.newTypeWiring("Query")
-                        .dataFetcher("getTodos", graphQLTodoService.getTodos()))
-                .type(TypeRuntimeWiring.newTypeWiring("Query")
-                        .dataFetcher("getTodo", graphQLTodoService.getTodo()))
+                        .dataFetcher("getTodos", todoFetcherService.getTodos())
+                        .dataFetcher("getTodo", todoFetcherService.getTodo()))
                 .type(TypeRuntimeWiring.newTypeWiring("Mutation")
-                        .dataFetcher("deleteTodo", graphQLTodoService.deleteTodo()))
-                .type(TypeRuntimeWiring.newTypeWiring("Mutation")
-                        .dataFetcher("addTodo", graphQLTodoService.addTodo()))
-                .type(TypeRuntimeWiring.newTypeWiring("Mutation")
-                        .dataFetcher("updateTodo", graphQLTodoService.updateTodo()))
+                        .dataFetcher("deleteTodo", todoFetcherService.deleteTodo())
+                        .dataFetcher("addTodo", todoFetcherService.addTodo())
+                        .dataFetcher("updateTodo", todoFetcherService.updateTodo())
+                        .dataFetcher("deleteTask", taskFetcherService.deleteTask())
+                        .dataFetcher("addTask", taskFetcherService.addTask())
+                        .dataFetcher("updateTask", taskFetcherService.updateTask()))
                 .build();
         SchemaGenerator schemaGenerator = new SchemaGenerator();
         GraphQLSchema graphQLSchema = schemaGenerator.makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);
